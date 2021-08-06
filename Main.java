@@ -11,10 +11,13 @@ public class Main
     {
         int[] A = {1,2,3,4,5,2,6};
         System.out.println(linearSearch(A, 0));
+        System.out.println(linearSearch2(A, 5));
         System.out.println(removeX("abcdexxxabc"));
         System.out.println(countStrictlyIncreasingPairs(A));
+        System.out.println(countStrictlyIncreasingPairs2(A));
         System.out.println(moveAtobeginningmoveZtoEnd("kuddaazzzaaabuudb"));
         System.out.println(numOpenLeftParentheses("((dd()))abc)))((lll))df))dd)(("));
+        System.out.println(numOpenLeftParentheses2("((dd()))abc)))((lll))df))dd)(("));
         System.out.println(equation(8)); // answer is 12^5 == 248832
     }
     
@@ -35,6 +38,20 @@ public class Main
                 return linearSearch(Arrays.copyOfRange(A, 1, A.length), target);
             }
         }
+    }
+    
+    public static boolean linSearchHelper(int[] A, int target, int index) {
+        if (index >= A.length) {
+            return false;
+        } else if (A[index] == target) {
+            return true;
+        } else {
+            return linSearchHelper(A, target, index+1);
+        }
+    }
+    
+    public static boolean linearSearch2(int[] A, int target) { // more efficient by using helper
+        return linSearchHelper(A, target, 0);
     }
     
     // removeX
@@ -70,6 +87,20 @@ public class Main
                 return countStrictlyIncreasingPairs(Arrays.copyOfRange(A, 1, A.length));   
             }
         }
+    }
+    
+    public static int countHelper(int[] A, int index) {
+        if (index >= A.length - 1) {
+            return 0;
+        } else if (A[index] < A[index + 1]) {
+            return 1 + countHelper(A, index + 1);
+        } else {
+            return countHelper(A, index + 1);
+        }
+    }
+    
+    public static int countStrictlyIncreasingPairs2(int[] A) { // more efficient by using helper function
+        return countHelper(A, 0);
     }
     
     // moveAtobeginningmoveZtoEnd
@@ -122,6 +153,22 @@ public class Main
         } else {
             return numOpenLeftParentheses(s.substring(0, s.length()-1));
         }
+    }
+    
+    public static int openHelper(String s, int index, int cum) {
+        if (index >= s.length()) {
+            return cum;
+        } else if (s.charAt(index) == '(') {
+            return openHelper(s, index+1, cum+1);
+        } else if (s.charAt(index) == ')') {
+            return openHelper(s, index+1, Math.max(0, cum-1));
+        } else {
+            return openHelper(s, index+1, cum);
+        }
+    }
+    
+    public static int numOpenLeftParentheses2(String s) { // use helper function w/o using substring
+        return openHelper(s, 0, 0);
     }
     
     // Challenge! Here is a question that might appear on the AP test! Take this as extra practice. 
