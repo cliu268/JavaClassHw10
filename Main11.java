@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Write a description of class Main11 here.
@@ -11,30 +12,32 @@ public class Main11
 {
     public static void main(String[] args)
     {
-        int[] A = {1,4,3,5,2};
-        bubbleSort(A);
-        int[] B = {1,4,3,5,2};
-        bubbleSortReverse(B);
-        int[] C = {5,1,4,3,2};        
-        selectionSort(C);
-        int[] D = {1,4,3,5,2};
-        int[] E = {5,1,4,3,2};
-        System.out.println(Arrays.toString(mergeSortReverse(D)));
-        System.out.println(Arrays.toString(mergeSortReverse(E)));
-        int[] F = {1,2,3};
-        System.out.println(Arrays.deepToString(powerSet(F).toArray()));
-        int[] G = {1,2,3,4,5};
-        System.out.println(subsetSum(G, 15));
-        int[][] H = {{0, 0, 0, 0, 0, 0, 0, 0},
-                     {0, 0, 0, 0, 0, 0, 0, 0},
-                     {0, 0, 0, 0, 0, 0, 0, 0},
-                     {0, 0, 0, 0, 0, 0, 0, 0},
-                     {0, 0, 0, 0, 0, 0, 0, 0},
-                     {0, 0, 0, 0, 0, 0, 0, 0},
-                     {0, 0, 0, 0, 0, 0, 0, 0},
-                     {0, 0, 0, 0, 0, 0, 0, 0}};
-        System.out.println(travelingKnight(H, 7, 7));
-        System.out.println(Arrays.deepToString(H));
+        // int[] A = {1,4,3,5,2};
+        // bubbleSort(A);
+        // int[] B = {1,4,3,5,2};
+        // bubbleSortReverse(B);
+        // int[] C = {5,1,4,3,2};        
+        // selectionSort(C);
+        // int[] D = {1,4,3,5,2};
+        // int[] E = {5,1,4,3,2};
+        // System.out.println(Arrays.toString(mergeSortReverse(D)));
+        // System.out.println(Arrays.toString(mergeSortReverse(E)));
+        // int[] F = {1,2,3};
+        // System.out.println(Arrays.deepToString(powerSet(F).toArray()));
+        // int[] G = {1,2,3,4,5};
+        // System.out.println(subsetSum(G, 15));
+        // int[][] H = {{0, 0, 0, 0, 0, 0, 0, 0},
+        //              {0, 0, 0, 0, 0, 0, 0, 0},
+        //              {0, 0, 0, 0, 0, 0, 0, 0},
+        //              {0, 0, 0, 0, 0, 0, 0, 0},
+        //              {0, 0, 0, 0, 0, 0, 0, 0},
+        //              {0, 0, 0, 0, 0, 0, 0, 0},
+        //              {0, 0, 0, 0, 0, 0, 0, 0},
+        //              {0, 0, 0, 0, 0, 0, 0, 0}};
+        // System.out.println(travelingKnight(H, 1, 2));
+        // System.out.println(Arrays.deepToString(H));
+        int n = 5;
+        permutation(n);
     }
     
     // Take the array [1,4,3,5,2]
@@ -230,6 +233,45 @@ public class Main11
     
     public static boolean subsetSum(int[] A, int target) {
         return subsetSumHelper(new int[]{}, 0, A, target);
+    }
+
+    // permutation 
+    // Input: int n
+    // Output: return void, but print out the permutation on the screen in order
+    // Sample input:
+    // 3
+    // Sample output:
+    // 1 2 3
+    // 1 3 2
+    // 2 1 3
+    // 2 3 1
+    // 3 1 2
+    // 3 2 1
+    public static void permutation(int n) {
+        Set<Integer> inputSet = new HashSet<Integer>();
+        for (int i = 1; i <= n; i++) {
+            inputSet.add(i);
+        }
+
+        List<String> result = new ArrayList<String>();
+        permutationHelper(result, inputSet, 0, n, "");
+        for (String permutation : result) {
+            System.out.println(permutation.trim());
+        }
+    }
+
+    private static void permutationHelper(List<String> result, Set<Integer> inputSet, int currentLength, int n, String current) {
+        if (currentLength == n) {
+            result.add(current);
+        } else {
+            for (int candidate : inputSet) {
+                String temp = candidate + "";
+
+                Set<Integer> currentSet = new HashSet<Integer>(inputSet);
+                currentSet.remove(candidate);
+                permutationHelper(result, currentSet, currentLength + 1, n, current + " " + temp);
+            }
+        }
     }
     
     // travelingKnight
